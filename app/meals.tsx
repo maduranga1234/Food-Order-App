@@ -2,12 +2,12 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, Image, Dimensions } from 'react-native';
 
 const menuItems = [
-  { id: '1', name: 'Chicken Burger', price: 'LKR 600.00', image: 'https://media.istockphoto.com/id/1397632887/photo/beef-burger-sandwich-with-salad-lettuce-tomato-cheese-and-dressing.jpg?s=612x612&w=0&k=20&c=kC2e64DxrQe_yhHxMhXs0JimtAMvvXo4ZpgbKXAwDUo=' },
-  { id: '2', name: 'Egg Bun', price: 'LKR 250.00', image: 'https://img.freepik.com/free-photo/khachapuri-adjarian-open-pie-with-mozzarella-egg-georgian-cuisine_2829-14477.jpg?ga=GA1.2.1360257794.1717265664&semt=ais_user' },
-  { id: '3', name: 'Sausage bun', price: 'LKR 200.00', image: 'https://img.freepik.com/free-photo/hot-dogs-served-wooden-plank-marble-surface-onions-back_157027-4461.jpg?ga=GA1.2.1360257794.1717265664' },
-  { id: '4', name: 'Sandwich', price: 'LKR 200.00', image: 'https://img.freepik.com/free-photo/front-view-delicious-ham-sandwiches-wooden-board-dark-surface_179666-34425.jpg?ga=GA1.2.1360257794.1717265664&semt=sph' },
-  { id: '5', name: 'Fish Rolls', price: 'LKR 120.00', image: 'https://img.freepik.com/free-photo/side-view-chicken-nuggets-lettuce-leaves-with-sauce_141793-4840.jpg?ga=GA1.2.1360257794.1717265664' },
-  { id: '6', name: 'Pasty', price: 'LKR 200.00', image: 'https://img.freepik.com/premium-photo/stuffed-vegetable-puff-samosa-famous-indian-bakery-snack-served-with-tomato-ketchup-hot-tea-selective-focus_466689-60205.jpg?ga=GA1.2.1360257794.1717265664&semt=ais_user' },
+  { id: '1', name: 'Spicy Noodles', price: 'LKR 1500.00', image: 'https://img.freepik.com/premium-photo/asian-noodles-with-pork-teriyaki-sauce-with-green-beans-carrots-shiitake-mushrooms_147620-1674.jpg?ga=GA1.2.1360257794.1717265664&semt=ais_hybrid' },
+  { id: '2', name: 'Shrimp Pasta', price: 'LKR 1800.00', image: 'https://img.freepik.com/premium-photo/plate-spaghetti-bolognese-pasta-with-sauce-tomatoes-basil-parmesan_534066-1227.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_hybrid' },
+  { id: '3', name: 'Mongolian Rice', price: 'LKR 800.00', image: 'https://img.freepik.com/free-photo/close-up-pilaf-with-beans-green-fried-onions_141793-1349.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_hybrid' },
+  { id: '4', name: 'Mixed Rice', price: 'LKR 2200.00', image: 'https://preview.redd.it/mw2yltroquy41.jpg?width=1080&crop=smart&auto=webp&s=85c45aa0de67ea51871d59518fed8eadd1e707a8' },
+  { id: '5', name: 'Mix Kottu', price: 'LKR 1600.00', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrSiKrCJ5zjOMj4eSMNBihoAs40pb38YO6yw&usqp=CAU' },
+  { id: '6', name: 'Chicken Rice', price: 'LKR 1500.00', image: 'https://img.freepik.com/free-photo/fried-rice-with-minced-pork-tomato-carrot-cucumber-plate_1150-27179.jpg?ga=GA1.1.1360257794.1717265664' },
 ];
 
 const MenuScreen = () => {
