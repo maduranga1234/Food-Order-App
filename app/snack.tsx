@@ -2,13 +2,12 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, Image, Dimensions } from 'react-native';
 
 const menuItems = [
-  { id: '1', name: 'Mango Juice', price: 'LKR 400.00', image: 'https://img.freepik.com/free-photo/delicious-mango-still-life_23-2151542230.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user' },
-  { id: '2', name: 'Avocado Juice', price: 'LKR 450.00', image: 'https://img.freepik.com/premium-photo/close-up-drink-table_1048944-21098849.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user' },
-  { id: '3', name: 'Pineapple Juice', price: 'LKR 600.00', image: 'https://img.freepik.com/premium-photo/front-view-fresh-pineapple-dry-pineapple-slices-pineapple-juice-glasses-dark-background-copy-place_461922-26953.jpg?w=740' },
-  { id: '4', name: 'Watermelon Juice', price: 'LKR 400.00', image: 'https://img.freepik.com/free-photo/watermelon-ice-cold-smoothie-with-mint-leaves-slice-watermelon_114579-1985.jpg?ga=GA1.1.1360257794.1717265664' },
-  { id: '5', name: 'Papaya Juice', price: 'LKR 400.00', image: 'https://img.freepik.com/free-photo/fresh-papaya-juice-glass-with-papaya-fruit-wooden-table-black-background-ai-generative_123827-24233.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user' },
-  { id: '26', name: 'Apple Juice', price: 'LKR 600.00', image: 'https://img.freepik.com/free-photo/side-view-apple-juice-gray-wooden-table-vertical_176474-1039.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user' },
-  
+  { id: '1', name: 'Chicken Burger', price: 'LKR 600.00', image: 'https://media.istockphoto.com/id/1397632887/photo/beef-burger-sandwich-with-salad-lettuce-tomato-cheese-and-dressing.jpg?s=612x612&w=0&k=20&c=kC2e64DxrQe_yhHxMhXs0JimtAMvvXo4ZpgbKXAwDUo=' },
+  { id: '2', name: 'Egg Bun', price: 'LKR 250.00', image: 'https://img.freepik.com/free-photo/khachapuri-adjarian-open-pie-with-mozzarella-egg-georgian-cuisine_2829-14477.jpg?ga=GA1.2.1360257794.1717265664&semt=ais_user' },
+  { id: '3', name: 'Sausage bun', price: 'LKR 200.00', image: 'https://img.freepik.com/free-photo/hot-dogs-served-wooden-plank-marble-surface-onions-back_157027-4461.jpg?ga=GA1.2.1360257794.1717265664' },
+  { id: '4', name: 'Sandwich', price: 'LKR 200.00', image: 'https://img.freepik.com/free-photo/front-view-delicious-ham-sandwiches-wooden-board-dark-surface_179666-34425.jpg?ga=GA1.2.1360257794.1717265664&semt=sph' },
+  { id: '5', name: 'Frish Rolls', price: 'LKR 120.00', image: 'https://img.freepik.com/free-photo/side-view-chicken-nuggets-lettuce-leaves-with-sauce_141793-4840.jpg?ga=GA1.2.1360257794.1717265664' },
+  { id: '6', name: 'Pasty', price: 'LKR 200.00', image: 'https://img.freepik.com/premium-photo/stuffed-vegetable-puff-samosa-famous-indian-bakery-snack-served-with-tomato-ketchup-hot-tea-selective-focus_466689-60205.jpg?ga=GA1.2.1360257794.1717265664&semt=ais_user' },
 ];
 
 const MenuScreen = () => {
