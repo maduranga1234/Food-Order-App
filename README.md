@@ -30,6 +30,9 @@ Sing up page
 Login page
 ![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-11%20at%2023.37.50_4f58ef6e.jpg)
 
+Home page
+![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-12%20at%2021.08.28_7b529387.jpg)
+
  Beverages page
 ![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-11%20at%2023.37.50_1abf73ba.jpg)
 
