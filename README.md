@@ -1,50 +1,48 @@
-# Welcome to your Expo app 👋
+# React Native Online Food Ordering App 🍔📱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Screenshots](#screenshots)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Get started
+## Introduction
+Welcome to our React Native Online Food Ordering App! This application allows users to browse restaurants, view menus, place orders, and track deliveries directly from their mobile devices. It aims to provide a convenient and efficient way for users to satisfy their food cravings.
 
-1. Install dependencies
+## Features
+- Browse restaurants and view their menus
+- Place orders for delivery or pickup
+- Customize orders with special instructions
+- Track order status and delivery progress
+- Secure payment processing
 
-   ```bash
-   npm install
-   ```
+## Technologies Used
+- **Frontend**: React Native
 
-2. Start the app
+## Screenshots
+Sing up page
+![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-11%20at%2023.37.51_8293e74a.jpg)
 
-   ```bash
-    npx expo start
-   ```
+Login page
+![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-11%20at%2023.37.50_4f58ef6e.jpg)
 
-In the output, you'll find options to open the app in a
+ Beverages page
+![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-11%20at%2023.37.50_1abf73ba.jpg)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+ Snacks page
+![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-11%20at%2023.37.49_e8ec3e9e.jpg)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Meals page
+![Example Image](https://github.com/maduranga1234/Food-Order-App/blob/master/images/WhatsApp%20Image%202024-07-11%20at%2023.37.49_700caacf.jpg)
 
-## Get a fresh project
+## Installation
+To run the app locally, follow these steps:
 
-When you're ready, run:
 
-```bash
-npm run reset-project
-```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+   
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
