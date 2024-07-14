@@ -15,11 +15,21 @@ const HomeScreen = () => {
       <TextInput style={styles.searchInput} placeholder="Search" />
 
       <ScrollView horizontal style={styles.categoryContainer}>
-        {['All', 'Burger', 'Pizza', 'Dessert'].map(category => (
-          <TouchableOpacity key={category} style={styles.categoryItem}>
-            <Text style={styles.categoryText}>{category}</Text>
-          </TouchableOpacity>
-        ))}
+        <TouchableOpacity style={styles.categoryItem}>
+          <Text style={styles.categoryText}>Beverages</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.categoryItem}>
+          <Text style={styles.categoryText}>Burger</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.categoryItem}>
+          <Text style={styles.categoryText}>Pizza</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.categoryItem}>
+          <Text style={styles.categoryText}>Dessert</Text>
+        </TouchableOpacity>
       </ScrollView>
 
       <View style={styles.promotionContainer}>
@@ -30,21 +40,27 @@ const HomeScreen = () => {
             <Text style={styles.promotionText}>Free Box of Fries</Text>
             <Text style={styles.promotionSubText}>On All Orders above LKR 2500.00</Text>
           </View>
-          <Image style={styles.promotionImage} source={require('../images/box.png')} />
+          <Image style={styles.promotionImage} source={require('../../images/box.png')} />
         </View>
       </View>
 
       <View style={styles.popularContainer}>
         <Text style={styles.popularTitle}>Popular</Text>
-        {[{ name: 'Beef Burger', price: 'LKR 800.00', image: 'https://media.istockphoto.com/id/1397632887/photo/beef-burger-sandwich-with-salad-lettuce-tomato-cheese-and-dressing.jpg?s=612x612&w=0&k=20&c=kC2e64DxrQe_yhHxMhXs0JimtAMvvXo4ZpgbKXAwDUo=' },
-         { name: 'Cheese Pizza', price: 'LKR 1800.00', image: 'https://img.freepik.com/free-photo/front-view-delicious-cheese-pizza-consists-olives-pepper-tomatoes-dark-surface_179666-34391.jpg?ga=GA1.1.1360257794.1717265664&semt=sph' },
-        { name: 'Pork Burger', price: 'LKR 600.00', image: 'https://img.freepik.com/premium-photo/juicy-beef-burger-black-background_109285-6287.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user' },
-       ].map((item, index) => (
-          <View key={index} style={styles.popularItem}>
+        {[{
+          name: 'Beef Burger', price: 'LKR 800.00', image: 'https://media.istockphoto.com/id/1397632887/photo/beef-burger-sandwich-with-salad-lettuce-tomato-cheese-and-dressing.jpg?s=612x612&w=0&k=20&c=kC2e64DxrQe_yhHxMhXs0JimtAMvvXo4ZpgbKXAwDUo='
+        },
+        {
+          name: 'Cheese Pizza', price: 'LKR 1800.00', image: 'https://img.freepik.com/free-photo/front-view-delicious-cheese-pizza-consists-olives-pepper-tomatoes-dark-surface_179666-34391.jpg?ga=GA1.1.1360257794.1717265664&semt=sph'
+        },
+        {
+          name: 'Pork Burger', price: 'LKR 600.00', image: 'https://img.freepik.com/premium-photo/juicy-beef-burger-black-background_109285-6287.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user'
+        },
+        ].map((item, index) => (
+          <TouchableOpacity key={index} style={styles.popularItem}>
             <Image style={styles.popularImage} source={{ uri: item.image }} />
             <Text style={styles.popularText}>{item.name}</Text>
             <Text style={styles.popularPrice}>{item.price}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
@@ -55,6 +71,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingHorizontal: 10,
   },
   header: {
     flexDirection: 'row',
@@ -73,13 +90,13 @@ const styles = StyleSheet.create({
   teast: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: 'white', // White color for "Teast"
+    color: 'white',
   },
   hub: {
     fontSize: 15,
     fontWeight: 'bold',
-    backgroundColor: '#FFA500', // Orange background for "Hub"
-    color: 'black', // Black color for "Hub"
+    backgroundColor: '#FFA500',
+    color: 'black',
     borderRadius: 5,
     paddingHorizontal: 8,
   },
@@ -96,7 +113,7 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     flexDirection: 'row',
-    padding: 20,
+    paddingVertical: 20,
   },
   categoryItem: {
     marginLeft: 15,

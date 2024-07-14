@@ -1,5 +1,6 @@
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { router } from 'expo-router'
 
 export default function Index() {
   return (
@@ -11,8 +12,9 @@ export default function Index() {
       <Text style={styles.enjoy}>Enjoy</Text>
       <Text style={styles.food}>Your Food</Text>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button}  onPress={()=>router.push('/home')}>
         <Text style={styles.buttonText}>Get Start</Text>
+       
       </TouchableOpacity>
     </View>
   )

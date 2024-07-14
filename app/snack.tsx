@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, Dimensions,TouchableOpacity } from 'react-native';
 
 const menuItems = [
   { id: '1', name: 'Chicken Burger', price: 'LKR 600.00', image: 'https://media.istockphoto.com/id/1397632887/photo/beef-burger-sandwich-with-salad-lettuce-tomato-cheese-and-dressing.jpg?s=612x612&w=0&k=20&c=kC2e64DxrQe_yhHxMhXs0JimtAMvvXo4ZpgbKXAwDUo=' },
@@ -25,13 +25,13 @@ const MenuScreen = () => {
         data={menuItems}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Image source={{ uri: item.image }} style={styles.image} />
-            <View style={styles.textContainer}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.price}>{item.price}</Text>
-            </View>
+          <TouchableOpacity style={styles.itemContainer}>
+          <Image source={{ uri: item.image }} style={styles.image} />
+          <View style={styles.textContainer}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.price}>{item.price}</Text>
           </View>
+        </TouchableOpacity>
         )}
         numColumns={2}
         contentContainerStyle={styles.flatListContainer}
