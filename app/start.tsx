@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   enjoy: {
     fontSize: 45,
     color: 'white',
-    fontWeight: 'bold', // Adding bold style here
+    fontWeight: 'bold', 
     marginTop: 30,
   },
   food: {

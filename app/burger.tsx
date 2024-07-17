@@ -13,7 +13,7 @@ const MenuScreen = () => {
 
   const getAllPizza = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/menu/get/juice');
+      const response = await axios.get('http://localhost:8080/menu/get/burger');
       setMenuItems(response.data);
       setLoading(false);
     } catch (error) {
@@ -34,7 +34,7 @@ const MenuScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.menuStyle}>Bevareges</Text>
+      <Text style={styles.menuStyle}>Burger</Text>
       <FlatList
         style={styles.list}
         data={menuItems}

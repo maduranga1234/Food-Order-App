@@ -11,6 +11,26 @@ export default function RootLayout() {
         name="home" 
         options={{ headerShown: false }} 
       />
+     <Stack.Screen 
+        name="bevareges" 
+        options={{ headerShown: false }} 
+      />
+
+        <Stack.Screen 
+        name="burger" 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="pizza" 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="snack" 
+        options={{ headerShown: false }} 
+      />
     </Stack>
+   
+
+    
   );
 }

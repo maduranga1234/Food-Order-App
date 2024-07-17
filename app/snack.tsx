@@ -1,37 +1,52 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, Dimensions,TouchableOpacity } from 'react-native';
-
-const menuItems = [
-  { id: '1', name: 'Chicken Burger', price: 'LKR 600.00', image: 'https://media.istockphoto.com/id/1397632887/photo/beef-burger-sandwich-with-salad-lettuce-tomato-cheese-and-dressing.jpg?s=612x612&w=0&k=20&c=kC2e64DxrQe_yhHxMhXs0JimtAMvvXo4ZpgbKXAwDUo=' },
-  { id: '2', name: 'Egg Bun', price: 'LKR 250.00', image: 'https://img.freepik.com/free-photo/khachapuri-adjarian-open-pie-with-mozzarella-egg-georgian-cuisine_2829-14477.jpg?ga=GA1.2.1360257794.1717265664&semt=ais_user' },
-  { id: '3', name: 'Sausage bun', price: 'LKR 200.00', image: 'https://img.freepik.com/free-photo/hot-dogs-served-wooden-plank-marble-surface-onions-back_157027-4461.jpg?ga=GA1.2.1360257794.1717265664' },
-  { id: '4', name: 'Sandwich', price: 'LKR 200.00', image: 'https://img.freepik.com/free-photo/front-view-delicious-ham-sandwiches-wooden-board-dark-surface_179666-34425.jpg?ga=GA1.2.1360257794.1717265664&semt=sph' },
-  { id: '5', name: 'Frish Rolls', price: 'LKR 120.00', image: 'https://img.freepik.com/free-photo/side-view-chicken-nuggets-lettuce-leaves-with-sauce_141793-4840.jpg?ga=GA1.2.1360257794.1717265664' },
-  { id: '6', name: 'Pasty', price: 'LKR 200.00', image: 'https://img.freepik.com/premium-photo/stuffed-vegetable-puff-samosa-famous-indian-bakery-snack-served-with-tomato-ketchup-hot-tea-selective-focus_466689-60205.jpg?ga=GA1.2.1360257794.1717265664&semt=ais_user' },
-];
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet, Image, Dimensions } from 'react-native';
+import axios from 'axios';
 
 const MenuScreen = () => {
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    getAllPizza();
+  }, []);
+
+  const getAllPizza = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/menu/get/snack');
+      setMenuItems(response.data);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message || 'Error fetching menu items');
+      setLoading(false);
+    }
+  };
+
+ 
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text>Error: {error}</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.menuStyle}>Our Menu</Text>
-      <View style={styles.menuList}>
-        <Text style={styles.menuItem}>Meals</Text>
-        <Text style={styles.menuItem}>Beverages</Text>
-        <Text style={styles.menuItem}>Snacks</Text>
-        
-      </View>
+      <Text style={styles.menuStyle}>Snack</Text>
       <FlatList
         style={styles.list}
         data={menuItems}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer}>
-          <Image source={{ uri: item.image }} style={styles.image} />
-          <View style={styles.textContainer}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>{item.price}</Text>
+          <View style={styles.itemContainer}>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <View style={styles.textContainer}>
+              <Text style={styles.name}>{item.itemName}</Text>
+              <Text style={styles.price}>LKR {item.price}</Text>
+            </View>
           </View>
-        </TouchableOpacity>
         )}
         numColumns={2}
         contentContainerStyle={styles.flatListContainer}
@@ -44,7 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: 'orange',
   },
   list: {
     marginTop: 20,
@@ -54,22 +69,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 40,
-    alignItems:'center'
+    alignItems:'center',
   },
   menuList: {
-    marginTop:50,
+    marginTop: 50,
     flexDirection: 'row',
-    alignItems:'center',
-    
+    alignItems: 'center',
   },
   menuItem: {
     fontSize: 18,
     fontWeight: 'bold',
     marginHorizontal: 30,
-    color:'#FFA500'
-    
-
-   
+    color: '#FFA500',
   },
   itemContainer: {
     width: Dimensions.get('window').width / 2 - 20,

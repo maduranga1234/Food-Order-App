@@ -1,7 +1,40 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { router } from 'expo-router';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 const HomeScreen = () => {
+  const [menuItems, setMenuItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      searchMenuItems();
+    }, 300); 
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery]);
+
+  const searchMenuItems = async () => {
+    if (!searchQuery) {
+      setMenuItems([]);
+      return;
+    }
+    try {
+      setLoading(true);
+      const response = await axios.get(`http://localhost:8080/menu/search`, {
+        params: { itemName: searchQuery }
+      });
+      setMenuItems(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message || 'Error searching menu items');
+      setLoading(false);
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -12,23 +45,41 @@ const HomeScreen = () => {
         <Image style={styles.profileImage} source={{ uri: 'https://img.freepik.com/premium-photo/shiny-gold-letter-m-plain-white-background-3d-rendering_601748-26755.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user' }} />
       </View>
 
-      <TextInput style={styles.searchInput} placeholder="Search" />
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
+      {error && <Text style={styles.errorText}>{error}</Text>}
+
+      {searchQuery && menuItems.length > 0 && menuItems.map((item, index) => (
+  <TouchableOpacity key={index} style={styles.searchItem}>
+    <Image style={styles.searchImage} source={{ uri: item.image }} />
+    <View style={styles.searchTextContainer}>
+      <Text style={styles.searchText}>{item.itemName}</Text>
+      <Text style={styles.searchPrice}>LKR {item.price}</Text>
+    </View>
+  </TouchableOpacity>
+))}
 
       <ScrollView horizontal style={styles.categoryContainer}>
-        <TouchableOpacity style={styles.categoryItem}>
+        <TouchableOpacity style={styles.categoryItem} onPress={() => router.push('/bevareges')}>
           <Text style={styles.categoryText}>Beverages</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.categoryItem}>
+        <TouchableOpacity style={styles.categoryItem} onPress={() => router.push('/burger')}>
           <Text style={styles.categoryText}>Burger</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.categoryItem}>
+        <TouchableOpacity style={styles.categoryItem} onPress={() => router.push('/pizza')}>
           <Text style={styles.categoryText}>Pizza</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.categoryItem}>
-          <Text style={styles.categoryText}>Dessert</Text>
+        <TouchableOpacity style={styles.categoryItem} onPress={() => router.push('/snack')}>
+          <Text style={styles.categoryText}>Snack</Text>
         </TouchableOpacity>
       </ScrollView>
 
@@ -180,6 +231,33 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 'auto',
   },
+  searchItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    marginLeft:20
+  },
+  searchImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+
+  },
+  searchTextContainer: {
+    marginLeft: 10,
+    flex: 1, // Ensures the text takes remaining space
+  },
+  searchText: {
+    fontSize: 16,
+  },
+  searchPrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 'auto',
+  },
+
+
+  
 });
 
 export default HomeScreen;
