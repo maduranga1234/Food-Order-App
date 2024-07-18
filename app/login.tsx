@@ -1,7 +1,42 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { router } from 'expo-router';
 
 export default function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const login = async () => {
+    if (!email || !password) {
+      Alert.alert("Both email and password are required");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        Alert.alert(data.success);
+        router.push('/start');
+      } else {
+        Alert.alert(data.error);
+      }
+    } catch (error) {
+      Alert.alert("Error logging in", error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -13,15 +48,26 @@ export default function LoginScreen() {
         style={styles.image} 
       />
       <Text style={styles.title}>Sign In</Text>
-      <TextInput style={styles.input} placeholder="E-mail address" />
-      <TextInput style={styles.input} placeholder="Enter password" secureTextEntry />
-      <TouchableOpacity style={styles.loginButton} onPress={() => {}}>
+      <TextInput 
+        style={styles.input} 
+        placeholder="E-mail address" 
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput 
+        style={styles.input} 
+        placeholder="Enter password" 
+        secureTextEntry 
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableOpacity style={styles.loginButton} onPress={login}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>Don't have an account?</Text>
-        <TouchableOpacity  onPress={() => {}}>
-          <Text style={styles.signupButtonText}>  Sign Up</Text>
+        <TouchableOpacity onPress={() => router.push('/singUp')}>
+          <Text style={styles.signupButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -30,7 +76,6 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: {
-   
     flex: 1,
     padding: 20,
     justifyContent: 'center',
@@ -99,7 +144,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
-
   signupButtonText: {
     color: '#FFA500',
     fontSize: 16,

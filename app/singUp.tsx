@@ -1,7 +1,46 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { router } from 'expo-router';
 
 export default function LoginScreen() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const singUp = async () => {
+    if (!firstName || !lastName || !email || !password) {
+      Alert.alert("All fields are required");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/user/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        Alert.alert(data.success);
+        router.push('/start');
+      } else {
+        Alert.alert(data.error);
+      }
+    } catch (error) {
+      Alert.alert("Error signing up", error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -9,21 +48,42 @@ export default function LoginScreen() {
         <Text style={styles.teast}>Taste hub</Text>
       </View>
       <Image 
-            source={{ uri: 'https://media.istockphoto.com/id/980135854/photo/indian-vegetable-pulav-or-biryani-made-using-basmati-rice-served-in-terracotta-bowl-selective.jpg?s=612x612&w=0&k=20&c=mwoc1YoYRKByayw9KQwl1GeLKHlM1umtd5HQlmMY1kQ=' }} 
+        source={{ uri: 'https://media.istockphoto.com/id/980135854/photo/indian-vegetable-pulav-or-biryani-made-using-basmati-rice-served-in-terracotta-bowl-selective.jpg?s=612x612&w=0&k=20&c=mwoc1YoYRKByayw9KQwl1GeLKHlM1umtd5HQlmMY1kQ=' }} 
         style={styles.image} 
       />
       <Text style={styles.title}>Sign Up</Text>
-      <TextInput style={styles.input} placeholder="First Name" />
-      <TextInput style={styles.input} placeholder="Last Name" />
-      <TextInput style={styles.input} placeholder="E-mail address" />
-      <TextInput style={styles.input} placeholder="Enter password" secureTextEntry />
-      <TouchableOpacity style={styles.loginButton} onPress={() => {}}>
+      <TextInput 
+        style={styles.input} 
+        placeholder="First Name" 
+        value={firstName}
+        onChangeText={setFirstName}
+      />
+      <TextInput 
+        style={styles.input} 
+        placeholder="Last Name" 
+        value={lastName}
+        onChangeText={setLastName}
+      />
+      <TextInput 
+        style={styles.input} 
+        placeholder="E-mail address" 
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput 
+        style={styles.input} 
+        placeholder="Enter password" 
+        secureTextEntry 
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableOpacity style={styles.loginButton} onPress={singUp}>
         <Text style={styles.singupButtonText}>Sign Up</Text>
       </TouchableOpacity>
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>Do you have an account?</Text>
-        <TouchableOpacity  onPress={() => {}}>
-          <Text style={styles.loginButtonText}>  Login</Text>
+        <TouchableOpacity onPress={() => router.push('/')}>
+          <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -32,7 +92,6 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: {
-   
     flex: 1,
     padding: 20,
     justifyContent: 'center',
@@ -102,7 +161,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
-
   loginButtonText: {
     color: '#FFA500',
     fontSize: 16,
