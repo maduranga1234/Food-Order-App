@@ -15,7 +15,7 @@ export default function LoginScreen() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/user/save', {
+      const response = await fetch('http://192.168.173.54:8080/user/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

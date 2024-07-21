@@ -24,7 +24,7 @@ const HomeScreen = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8080/menu/search`, {
+      const response = await axios.get(`http://192.168.173.54:8080/menu/search`, {
         params: { itemName: searchQuery }
       });
       setMenuItems(response.data);
@@ -58,10 +58,9 @@ const HomeScreen = () => {
       {searchQuery && menuItems.length > 0 && menuItems.map((item, index) => (
   <TouchableOpacity key={index} style={styles.searchItem}>
     <Image style={styles.searchImage} source={{ uri: item.image }} />
-    <View style={styles.searchTextContainer}>
       <Text style={styles.searchText}>{item.itemName}</Text>
       <Text style={styles.searchPrice}>LKR {item.price}</Text>
-    </View>
+  
   </TouchableOpacity>
 ))}
 
@@ -245,15 +244,18 @@ const styles = StyleSheet.create({
   },
   searchTextContainer: {
     marginLeft: 10,
-    flex: 1, // Ensures the text takes remaining space
+    flex:1
   },
   searchText: {
     fontSize: 16,
+    marginLeft:8
+   
   },
   searchPrice: {
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 'auto',
+   
   },
 
 

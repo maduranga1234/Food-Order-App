@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { useRouter } from 'expo-router';
 
 const MenuScreen = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('indian');
+  const router = useRouter();
 
   useEffect(() => {
     fetchMenuItems();
@@ -12,7 +14,7 @@ const MenuScreen = () => {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/menu/get/indian');
+      const response = await axios.get('http://192.168.8.102:8080/menu/get/indian');
       setMenuItems(response.data);
       setSelectedCategory('indian');
     } catch (error) {
@@ -22,7 +24,7 @@ const MenuScreen = () => {
 
   const getSriLankaFood = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/menu/get/srilanka');
+      const response = await axios.get('http://192.168.8.102:8080/menu/get/srilanka');
       setMenuItems(response.data);
       setSelectedCategory('srilanka');
     } catch (error) {
@@ -32,12 +34,24 @@ const MenuScreen = () => {
 
   const getChineseFood = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/menu/get/chinese');
+      const response = await axios.get('http://192.168.8.102:8080/menu/get/chinese');
       setMenuItems(response.data);
       setSelectedCategory('chinese');
     } catch (error) {
       console.error('Error fetching menu items:', error);
     }
+  };
+
+  const detailClick = (item) => {
+    router.push({
+      pathname: 'details',
+      params: {
+        itemImage: item.image,
+        itemCategory: item.category,
+        itemName: item.itemName,
+        price: item.price
+      }
+    });
   };
 
   return (
@@ -57,9 +71,9 @@ const MenuScreen = () => {
       <FlatList
         style={styles.list}
         data={menuItems}
-        keyExtractor={(item) => item._id} 
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer}>
+          <TouchableOpacity style={styles.itemContainer} onPress={() => detailClick(item)}>
             <Image source={{ uri: item.image }} style={styles.image} />
             <View style={styles.textContainer}>
               <Text style={styles.name}>{item.category}</Text>

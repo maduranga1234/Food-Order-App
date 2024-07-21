@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput,StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { router } from 'expo-router';
 
 export default function LoginScreen() {
@@ -13,7 +13,7 @@ export default function LoginScreen() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch('http://192.168.8.102:8080/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,11 +25,12 @@ export default function LoginScreen() {
       });
 
       const data = await response.json();
-      console.log("Response Data: ", data); // Log the entire data object
+      console.log(data)
+      
 
       if (response.status === 200) {
         Alert.alert(data.success);
-        router.push({ pathname: 'profile', params: { userId: data.user._id, userName: data.user.firstName, userEmail: data.user.email } });
+        router.push({ pathname: 'profile', params: { userId: data.user._id, userName: data.user.firstName, userEmail: data.user.email,userImage:data.user.image } });
         console.log("name: " + data.user.firstName, "email: " + data.user.email);
       } else {
         Alert.alert(data.error);
