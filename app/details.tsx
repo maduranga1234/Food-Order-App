@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Rating } from 'react-native-elements';
 import { router, useLocalSearchParams } from 'expo-router';
+import { CartContext } from './cartContext'; // Import the CartContext
 
 export default function Details() {
   const { itemImage, itemCategory, itemName, price } = useLocalSearchParams();
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(price);
+  const { addToCart } = useContext(CartContext); // Use the CartContext
 
   const plusQuantity = () => {
     const newQuantity = quantity + 1;
@@ -22,20 +24,10 @@ export default function Details() {
     }
   };
 
-  const addToCartClick=()=>{
-    router.push({
-      pathname: 'addTocart',
-      params: {
-        itemImage: itemImage,
-        itemCategory: itemCategory,
-        itemName: itemName,
-        totalPrice: totalPrice,
-        price:price,
-        quantity: quantity
-
-      }
-    });
-  }
+  const addToCartClick = () => {
+    addToCart({ itemImage, itemCategory, itemName, price, quantity });
+    router.push('addTocart');
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -71,7 +63,7 @@ export default function Details() {
           <Text style={styles.nutrition}>Carbo: 16g</Text>
         </View>
         <TouchableOpacity style={styles.button} onPress={addToCartClick}>
-          <Text style={styles.buttonText} >Add To Cart</Text>
+          <Text style={styles.buttonText}>Add To Cart</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
