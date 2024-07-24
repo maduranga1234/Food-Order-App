@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { router, useRouter } from 'expo-router';
 
 const MenuScreen = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -13,8 +14,9 @@ const MenuScreen = () => {
 
   const getAllPizza = async () => {
     try {
-      const response = await axios.get('http://192.168.173.54:8080/menu/get/pizza');
+      const response = await axios.get('http://192.168.8.100:8080/menu/get/Pizza');
       setMenuItems(response.data);
+      console.log(response.data);
       setLoading(false);
     } catch (error) {
       setError(error.message || 'Error fetching menu items');
@@ -32,34 +34,52 @@ const MenuScreen = () => {
     );
   }
 
+  const detailClick = (item) => {
+    router.push({
+      pathname: 'details',
+      params: {
+        itemImage: item.image,
+        itemCategory: item.category,
+        itemName: item.itemName,
+        price: item.price,
+        description: item.description
+        
+
+
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.menuStyle}>Pizza</Text>
+      <Text style={styles.menuStyle}>Our Menu</Text>
+     
       <FlatList
         style={styles.list}
         data={menuItems}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
+          <TouchableOpacity style={styles.itemContainer} onPress={() => detailClick(item)}>
             <Image source={{ uri: item.image }} style={styles.image} />
             <View style={styles.textContainer}>
+             
               <Text style={styles.name}>{item.itemName}</Text>
-              <Text style={styles.price}>LKR {item.price}</Text>
+              <Text style={styles.price}>LKR {item.price}.00</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
         numColumns={2}
         contentContainerStyle={styles.flatListContainer}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: 'orange',
+    backgroundColor: '#fff',
   },
   list: {
     marginTop: 20,
@@ -69,7 +89,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 40,
-    alignItems:'center',
+    alignItems: 'center',
   },
   menuList: {
     marginTop: 50,
@@ -80,6 +100,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginHorizontal: 30,
+    color: 'black',
+  },
+  selectedMenuItem: {
     color: '#FFA500',
   },
   itemContainer: {
@@ -109,13 +132,18 @@ const styles = StyleSheet.create({
   textContainer: {
     alignItems: 'center',
   },
+  category: {
+    fontSize: 16,
+    color: 'gray',
+  },
   name: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   price: {
-    fontSize: 16,
+    marginTop: 10,
+    fontSize: 17,
     color: 'gray',
     textAlign: 'center',
   },

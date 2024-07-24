@@ -8,14 +8,19 @@ const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [popular, setPopular] = useState([]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       searchMenuItems();
-    }, 300); 
+    }, 300);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery]);
+
+  useEffect(() => {
+    getAllPopular();
+  }, []);
 
   const searchMenuItems = async () => {
     if (!searchQuery) {
@@ -24,7 +29,7 @@ const HomeScreen = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.get(`http://192.168.173.54:8080/menu/search`, {
+      const response = await axios.get(`http://192.168.8.100:8080/menu/search`, {
         params: { itemName: searchQuery }
       });
       setMenuItems(response.data);
@@ -33,6 +38,31 @@ const HomeScreen = () => {
       setError(err.message || 'Error searching menu items');
       setLoading(false);
     }
+  };
+
+  const getAllPopular = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('http://192.168.8.100:8080/popular/getAll');
+      setPopular(response.data);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message || 'Error fetching popular items');
+      setLoading(false);
+    }
+  };
+
+  const detailClick = (item) => {
+    router.push({
+      pathname: 'details',
+      params: {
+        itemImage: item.image,
+        itemCategory: item.category,
+        itemName: item.itemName,
+        price: item.price,
+        description: item.description
+      }
+    });
   };
 
   return (
@@ -56,16 +86,15 @@ const HomeScreen = () => {
       {error && <Text style={styles.errorText}>{error}</Text>}
 
       {searchQuery && menuItems.length > 0 && menuItems.map((item, index) => (
-  <TouchableOpacity key={index} style={styles.searchItem}>
-    <Image style={styles.searchImage} source={{ uri: item.image }} />
-      <Text style={styles.searchText}>{item.itemName}</Text>
-      <Text style={styles.searchPrice}>LKR {item.price}</Text>
-  
-  </TouchableOpacity>
-))}
+        <TouchableOpacity key={index} style={styles.searchItem} onPress={() => detailClick(item)}>
+          <Image style={styles.searchImage} source={{ uri: item.image }} />
+          <Text style={styles.searchText}>{item.itemName}</Text>
+          <Text style={styles.searchPrice}>LKR {item.price}</Text>
+        </TouchableOpacity>
+      ))}
 
       <ScrollView horizontal style={styles.categoryContainer}>
-        <TouchableOpacity style={styles.categoryItem} onPress={() => router.push('/bevareges')}>
+        <TouchableOpacity style={styles.categoryItem} onPress={() => router.push('/beverages')}>
           <Text style={styles.categoryText}>Beverages</Text>
         </TouchableOpacity>
 
@@ -96,20 +125,11 @@ const HomeScreen = () => {
 
       <View style={styles.popularContainer}>
         <Text style={styles.popularTitle}>Popular</Text>
-        {[{
-          name: 'Beef Burger', price: 'LKR 800.00', image: 'https://media.istockphoto.com/id/1397632887/photo/beef-burger-sandwich-with-salad-lettuce-tomato-cheese-and-dressing.jpg?s=612x612&w=0&k=20&c=kC2e64DxrQe_yhHxMhXs0JimtAMvvXo4ZpgbKXAwDUo='
-        },
-        {
-          name: 'Cheese Pizza', price: 'LKR 1800.00', image: 'https://img.freepik.com/free-photo/front-view-delicious-cheese-pizza-consists-olives-pepper-tomatoes-dark-surface_179666-34391.jpg?ga=GA1.1.1360257794.1717265664&semt=sph'
-        },
-        {
-          name: 'Pork Burger', price: 'LKR 600.00', image: 'https://img.freepik.com/premium-photo/juicy-beef-burger-black-background_109285-6287.jpg?ga=GA1.1.1360257794.1717265664&semt=ais_user'
-        },
-        ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.popularItem}>
+        {popular.map((item, index) => (
+          <TouchableOpacity key={index} style={styles.popularItem} onPress={() => detailClick(item)}>
             <Image style={styles.popularImage} source={{ uri: item.image }} />
-            <Text style={styles.popularText}>{item.name}</Text>
-            <Text style={styles.popularPrice}>{item.price}</Text>
+            <Text style={styles.popularText}>{item.itemName}</Text>
+            <Text style={styles.popularPrice}>LKR {item.price}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -234,32 +254,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
-    marginLeft:20
+    marginLeft: 20,
   },
   searchImage: {
     width: 60,
     height: 60,
     borderRadius: 10,
-
   },
   searchTextContainer: {
     marginLeft: 10,
-    flex:1
+    flex: 1,
   },
   searchText: {
     fontSize: 16,
-    marginLeft:8
-   
+    marginLeft: 8,
   },
   searchPrice: {
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 'auto',
-   
   },
-
-
-  
 });
 
 export default HomeScreen;

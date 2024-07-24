@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Rating } from 'react-native-elements';
 import { router, useLocalSearchParams } from 'expo-router';
-import { CartContext } from './cartContext'; // Import the CartContext
+import { CartContext } from './cartContext'; 
 
 export default function Details() {
-  const { itemImage, itemCategory, itemName, price } = useLocalSearchParams();
+  const { itemImage, itemCategory, itemName, price,description } = useLocalSearchParams();
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(price);
   const { addToCart } = useContext(CartContext); // Use the CartContext
@@ -50,18 +50,18 @@ export default function Details() {
           <Rating imageSize={20} readonly startingValue={4.5} />
         </View>
         <Text style={styles.description}>
-          Healthy lamb salad made with our own Chef Recipe, perfect for those who want a tasty salad
+          {description}
         </Text>
         <View style={styles.priceContainer}>
           <Text style={styles.totalPriceLabel}>Total Price</Text>
           <Text style={styles.totalPrice}>LKR {totalPrice}.00</Text>
         </View>
-        <View style={styles.nutritionContainer}>
+        {/* <View style={styles.nutritionContainer}>
           <Text style={styles.nutrition}>Protein: 20g</Text>
           <Text style={styles.nutrition}>Calories: 520 kcal</Text>
           <Text style={styles.nutrition}>Fat: 18g</Text>
           <Text style={styles.nutrition}>Carbo: 16g</Text>
-        </View>
+        </View> */}
         <TouchableOpacity style={styles.button} onPress={addToCartClick}>
           <Text style={styles.buttonText}>Add To Cart</Text>
         </TouchableOpacity>

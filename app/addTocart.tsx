@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { router } from 'expo-router';
-import { CartContext } from './cartContext'; // Import the CartContext
+import { CartContext } from './cartContext'; 
 
 export default function AddToCart() {
   const { cartItems, removeFromCart } = useContext(CartContext); // Use the CartContext
@@ -16,6 +16,7 @@ export default function AddToCart() {
             <Text style={styles.cartItemName}>{item.itemName}</Text>
             <Text style={styles.cartItemPrice}>LKR {item.price}.00</Text>
             <View style={styles.quantityContainer}>
+              <Text style={styles.quantityLabel}>Quantity</Text>
               <Text style={styles.quantityText}>{item.quantity}</Text>
             </View>
           </View>
@@ -24,17 +25,25 @@ export default function AddToCart() {
           </TouchableOpacity>
         </View>
       ))}
-      <TextInput style={styles.orderInstructions} placeholder="Order instructions" />
+      <TextInput style={styles.orderInstructions} placeholder="Customer Name" />
+      <TextInput style={styles.orderInstructions} placeholder="Mobile Number" />
+      <TextInput style={styles.orderInstructions} placeholder="Location" />
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total:</Text>
         <Text style={styles.totalAmount}>LKR {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}.00</Text>
       </View>
+
+      {cartItems.length > 0 && (
       <TouchableOpacity style={styles.checkoutButton}>
         <Text style={styles.checkoutButtonText}>Checkout</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.backToMenuButton} onPress={() => router.push('/menu')}>
-        <Text style={styles.backToMenuButtonText}>Back to Menu</Text>
+)}
+      
+      <TouchableOpacity style={styles.backToMenuButton} onPress={() => router.push('/home')}>
+       <Text style={styles.backToMenuButtonText}>Back to Home</Text>
       </TouchableOpacity>
+      
+     
     </ScrollView>
   );
 }
@@ -80,6 +89,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
+  },
+  quantityLabel: {
+    fontSize: 16,
+    color: '#666',
+    marginRight: 5,
   },
   quantityText: {
     fontSize: 16,
