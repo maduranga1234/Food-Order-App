@@ -29,7 +29,7 @@ const HomeScreen = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.get(`http://192.168.8.100:8080/menu/search`, {
+      const response = await axios.get(`http://192.168.109.54:8080/menu/search`, {
         params: { itemName: searchQuery }
       });
       setMenuItems(response.data);
@@ -43,7 +43,7 @@ const HomeScreen = () => {
   const getAllPopular = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://192.168.8.100:8080/popular/getAll');
+      const response = await axios.get('http://192.168.109.54:8080/popular/getAll');
       setPopular(response.data);
       setLoading(false);
     } catch (error) {

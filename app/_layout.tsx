@@ -18,6 +18,7 @@ export default function RootLayout() {
         <Stack.Screen name="details" options={{ headerShown: false }} />
         <Stack.Screen name="addTocart" options={{ headerShown: false }} />
         <Stack.Screen name="cartContext" options={{ headerShown: false }} />
+        <Stack.Screen name="location-picker" options={{ headerShown: false }} />
       </Stack>
     </CartProvider>
   );

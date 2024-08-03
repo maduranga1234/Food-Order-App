@@ -1,10 +1,29 @@
-import React, { useContext } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import { router } from 'expo-router';
-import { CartContext } from './cartContext'; 
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
+import * as Location from 'expo-location';
+import { CartContext } from './cartContext';
 
 export default function AddToCart() {
   const { cartItems, removeFromCart } = useContext(CartContext); // Use the CartContext
+  const router = useRouter();
+  const [location, setLocation] = useState('');
+  const [locationText, setLocationText] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission to access location was denied');
+        return;
+      }
+    })();
+  }, []);
+
+  const getCurrentLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(`${location.coords.latitude}, ${location.coords.longitude}`);
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -27,23 +46,29 @@ export default function AddToCart() {
       ))}
       <TextInput style={styles.orderInstructions} placeholder="Customer Name" />
       <TextInput style={styles.orderInstructions} placeholder="Mobile Number" />
-      <TextInput style={styles.orderInstructions} placeholder="Location" />
+      <TextInput
+        style={styles.orderInstructions}
+        placeholder="Location"
+        value={locationText}
+        onChangeText={text => setLocationText(text)}
+      />
+      <TouchableOpacity style={styles.locationButton} onPress={getCurrentLocation}>
+        <Text style={styles.locationButtonText}>Use Current Location</Text>
+      </TouchableOpacity>
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total:</Text>
         <Text style={styles.totalAmount}>LKR {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}.00</Text>
       </View>
 
       {cartItems.length > 0 && (
-      <TouchableOpacity style={styles.checkoutButton}>
-        <Text style={styles.checkoutButtonText}>Checkout</Text>
-      </TouchableOpacity>
-)}
-      
+        <TouchableOpacity style={styles.checkoutButton}>
+          <Text style={styles.checkoutButtonText}>Checkout</Text>
+        </TouchableOpacity>
+      )}
+
       <TouchableOpacity style={styles.backToMenuButton} onPress={() => router.push('/home')}>
-       <Text style={styles.backToMenuButtonText}>Back to Home</Text>
+        <Text style={styles.backToMenuButtonText}>Back to Home</Text>
       </TouchableOpacity>
-      
-     
     </ScrollView>
   );
 }
@@ -115,6 +140,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     elevation: 2,
+  },
+  locationButton: {
+    marginTop: 10,
+    backgroundColor: 'blue',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  locationButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
   totalContainer: {
     flexDirection: 'row',

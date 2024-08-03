@@ -14,7 +14,7 @@ const MenuScreen = () => {
 
   const getAllPizza = async () => {
     try {
-      const response = await axios.get('http://192.168.8.100:8080/menu/get/Juice');
+      const response = await axios.get('http://192.168.109.54:8080/menu/get/Juice');
       setMenuItems(response.data);
       setLoading(false);
     } catch (error) {

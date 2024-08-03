@@ -1,42 +1,28 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput,StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { router } from 'expo-router';
+import { auth } from '@/firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const login = async () => {
-    if (!email || !password) {
-      Alert.alert("Both email and password are required");
-      return;
-    }
-
+  const signIn = async () => {
     try {
-      const response = await fetch('http://192.168.8.100:8080/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-      const data = await response.json();
-      console.log(data)
-      
+      // Retrieve additional user data (e.g., userName and userImage) from your database if needed
+      // For simplicity, we'll assume that the user's display name and photo URL are available in the Firebase user object
+      const userName = user.displayName || 'User';
+      const userImage = user.photoURL || 'default_image_url'; // Replace 'default_image_url' with your default image URL
 
-      if (response.status === 200) {
-        Alert.alert(data.success);
-        router.push({ pathname: 'profile', params: { userId: data.user._id, userName: data.user.firstName, userEmail: data.user.email,userImage:data.user.image } });
-        console.log("name: " + data.user.firstName, "email: " + data.user.email);
-      } else {
-        Alert.alert(data.error);
-      }
+      Alert.alert('Success', 'User account signed in!');
+      router.push({ pathname: 'profile', params: { userId: user.uid, userName, userEmail: user.email, userImage } });
     } catch (error) {
-      Alert.alert("Error logging in", error.message);
+      console.error('Error signing in', error);
+      Alert.alert('Error', error.message);
     }
   };
 
@@ -44,7 +30,7 @@ export default function LoginScreen() {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.welcome}>Welcome to</Text>
-        <Text style={styles.teast}>Taste hub</Text>
+        <Text style={styles.teast}>Taste Hub</Text>
       </View>
       <Image 
         source={{ uri: 'https://img.freepik.com/free-photo/curry-fried-rice_1339-1817.jpg?ga=GA1.1.1360257794.1717265664' }} 
@@ -64,7 +50,7 @@ export default function LoginScreen() {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity style={styles.loginButton} onPress={login}>
+      <TouchableOpacity style={styles.loginButton} onPress={signIn}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
       <View style={styles.signupContainer}>

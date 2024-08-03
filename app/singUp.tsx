@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { router } from 'expo-router';
+import { auth } from '@/firebaseConfig';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function LoginScreen() {
   const [firstName, setFirstName] = useState('');
@@ -8,36 +10,15 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const singUp = async () => {
-    if (!firstName || !lastName || !email || !password) {
-      Alert.alert("All fields are required");
-      return;
-    }
-
+  const signUp = async () => {
     try {
-      const response = await fetch('http://192.168.173.54:8080/user/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.status === 200) {
-        Alert.alert(data.success);
-        router.push('/start');
-      } else {
-        Alert.alert(data.error);
-      }
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      Alert.alert('Success', 'User account created & signed in!');
+     
     } catch (error) {
-      Alert.alert("Error signing up", error.message);
+      console.error('Error signing up:', error);
+      Alert.alert('Error', error.message);
     }
   };
 
@@ -77,8 +58,8 @@ export default function LoginScreen() {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity style={styles.loginButton} onPress={singUp}>
-        <Text style={styles.singupButtonText}>Sign Up</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={signUp}>
+        <Text style={styles.signUpButtonText}>Sign Up</Text>
       </TouchableOpacity>
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>Do you have an account?</Text>
@@ -108,7 +89,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333', 
     fontFamily: 'Arial', 
-    marginTop:40
+    marginTop: 40
   },
   teast: {
     fontSize: 28,
@@ -147,7 +128,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%', 
   },
-  singupButtonText: {
+  signUpButtonText: {
     color: '#fff',
     fontSize: 22,
     fontWeight: 'bold',
