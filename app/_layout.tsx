@@ -14,7 +14,7 @@ export default function RootLayout() {
         <Stack.Screen name="pizza" options={{ headerShown: false }} />
         <Stack.Screen name="snack" options={{ headerShown: false }} />
         <Stack.Screen name="start" options={{ headerShown: false }} />
-        <Stack.Screen name="signUp" options={{ headerShown: false }} />
+        <Stack.Screen name="singUp" options={{ headerShown: false }} />
         <Stack.Screen name="details" options={{ headerShown: false }} />
         <Stack.Screen name="addTocart" options={{ headerShown: false }} />
         <Stack.Screen name="cartContext" options={{ headerShown: false }} />

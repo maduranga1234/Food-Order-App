@@ -15,6 +15,7 @@ export default function LoginScreen() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       Alert.alert('Success', 'User account created & signed in!');
+       router.push({ pathname: '/'})
      
     } catch (error) {
       console.error('Error signing up:', error);

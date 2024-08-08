@@ -5,10 +5,12 @@ import * as Location from 'expo-location';
 import { CartContext } from './cartContext';
 
 export default function AddToCart() {
-  const { cartItems, removeFromCart } = useContext(CartContext); // Use the CartContext
+  const { cartItems, removeFromCart } = useContext(CartContext);
   const router = useRouter();
-  const [location, setLocation] = useState('');
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
   const [locationText, setLocationText] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -20,9 +22,52 @@ export default function AddToCart() {
     })();
   }, []);
 
-  const getCurrentLocation = async () => {
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation(`${location.coords.latitude}, ${location.coords.longitude}`);
+  useEffect(() => {
+    if (name && number && locationText) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [name, number, locationText]);
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  const handleCheckout = async () => {
+    const orderData = {
+      orderDate: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      name,
+      address: locationText,
+      number,
+      orderList: cartItems.map(item => ({
+        itemName: item.itemName,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      total: calculateTotal().toString() // Convert total to string to match your schema
+    };
+
+    try {
+      const response = await fetch('http://192.168.8.100:8080/order/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      const result = await response.json();
+      if (response.status === 200) {
+        Alert.alert('Success', 'Order saved successfully');
+        // Clear the cart or navigate to another screen
+      } else {
+        Alert.alert('Error', result.error || 'Error saving order');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Error saving order');
+    }
   };
 
   return (
@@ -44,24 +89,22 @@ export default function AddToCart() {
           </TouchableOpacity>
         </View>
       ))}
-      <TextInput style={styles.orderInstructions} placeholder="Customer Name" />
-      <TextInput style={styles.orderInstructions} placeholder="Mobile Number" />
+      <TextInput style={styles.orderInstructions} placeholder="Customer Name" value={name} onChangeText={setName} />
+      <TextInput style={styles.orderInstructions} placeholder="Mobile Number" value={number} onChangeText={setNumber} />
       <TextInput
         style={styles.orderInstructions}
         placeholder="Location"
         value={locationText}
         onChangeText={text => setLocationText(text)}
       />
-      <TouchableOpacity style={styles.locationButton} onPress={getCurrentLocation}>
-        <Text style={styles.locationButtonText}>Use Current Location</Text>
-      </TouchableOpacity>
+
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total:</Text>
-        <Text style={styles.totalAmount}>LKR {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}.00</Text>
+        <Text style={styles.totalAmount}>LKR {calculateTotal()}.00</Text>
       </View>
 
-      {cartItems.length > 0 && (
-        <TouchableOpacity style={styles.checkoutButton}>
+      {isFormValid && (
+        <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
           <Text style={styles.checkoutButtonText}>Checkout</Text>
         </TouchableOpacity>
       )}
@@ -140,17 +183,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     elevation: 2,
-  },
-  locationButton: {
-    marginTop: 10,
-    backgroundColor: 'blue',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  locationButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
   },
   totalContainer: {
     flexDirection: 'row',

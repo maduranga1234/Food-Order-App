@@ -14,7 +14,7 @@ const MenuScreen = () => {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await axios.get('http://192.168.109.54:8080/menu/get/indian');
+      const response = await axios.get('http://192.168.8.100:8080/menu/get/indian');
       setMenuItems(response.data);
       setSelectedCategory('indian');
     } catch (error) {
@@ -24,7 +24,7 @@ const MenuScreen = () => {
 
   const getSriLankaFood = async () => {
     try {
-      const response = await axios.get('http://192.168.109.54:8080/menu/get/Sri lanka');
+      const response = await axios.get('http://192.168.8.100:8080/menu/get/Sri lanka');
       setMenuItems(response.data);
       setSelectedCategory('srilanka');
       console.log(response.data);
@@ -35,7 +35,7 @@ const MenuScreen = () => {
 
   const getChineseFood = async () => {
     try {
-      const response = await axios.get('http://192.168.109.54:8080/menu/get/Chinese');
+      const response = await axios.get('http://192.168.8.100:8080/menu/get/Chinese');
       setMenuItems(response.data);
       setSelectedCategory('chinese');
     } catch (error) {
